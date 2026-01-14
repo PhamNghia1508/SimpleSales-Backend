@@ -1,4 +1,4 @@
-﻿namespace OrderManagement.Application.DTOs.Accounts;
+﻿namespace OrderManagement.Core.DTOs.Accounts;
 
 public class AccountCreateDto
 {

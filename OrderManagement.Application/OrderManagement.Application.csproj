@@ -15,5 +15,6 @@
 
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1"/>
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.1"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
     </ItemGroup>
 </Project>

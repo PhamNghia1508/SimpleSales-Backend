@@ -1,6 +1,9 @@
-﻿namespace OrderManagement.Core.Interfaces.Services;
+using OrderManagement.Core.DTOs.Orders;
 
-public class IOrderService
+namespace OrderManagement.Core.Interfaces.Services;
+
+public interface IOrderService
 {
-    
+    Task CreateOrderAsync(int accountId, OrderCreateDto request, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<OrderDto>> GetOrdersByAccountAsync(int accountId, CancellationToken cancellationToken = default);
 }

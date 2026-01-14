@@ -9,11 +9,13 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly OrderManagementDbContext _context;
     public IAccountRepository Accounts { get; }
+    public IOrderRepository Orders { get; }
 
     public UnitOfWork(OrderManagementDbContext context)
     {
         _context = context;
         Accounts = new AccountRepository(context);
+        Orders = new OrderRepository(context);
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
