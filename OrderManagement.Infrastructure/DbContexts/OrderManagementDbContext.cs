@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManagement.Core.Entities;
+using OrderManagement.Infrastructure.Configurations;
 
 namespace OrderManagement.Infrastructure.DbContexts;
 
@@ -25,21 +26,7 @@ public partial class OrderManagementDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>(entity =>
-        {
-            entity.HasKey(e => e.AccountId).HasName("PK__Account__349DA586FBC15634");
-
-            entity.ToTable("Account");
-
-            entity.HasIndex(e => e.Username, "UQ__Account__536C85E4F6D43E4E").IsUnique();
-
-            entity.Property(e => e.AccountId).HasColumnName("AccountID");
-            entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.PasswordHash).HasMaxLength(64);
-            entity.Property(e => e.Username)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-        });
+        modelBuilder.ApplyConfiguration(new AccountConfiguration());
 
         modelBuilder.Entity<Order>(entity =>
         {

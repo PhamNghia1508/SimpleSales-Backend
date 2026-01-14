@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 
 namespace OrderManagement.Core.Entities;
@@ -10,6 +10,8 @@ public partial class Account
     public string Username { get; set; } = null!;
 
     public byte[] PasswordHash { get; set; } = null!;
+
+    public byte[] PasswordSalt { get; set; } = null!;
 
     public string? FullName { get; set; }
 

@@ -1,6 +1,9 @@
-﻿namespace OrderManagement.Core.Interfaces;
+﻿using OrderManagement.Core.Interfaces.Repositories;
 
-public class IUnitOfWork
+namespace OrderManagement.Core.Interfaces;
+
+public interface IUnitOfWork
 {
-    
+    IAccountRepository Accounts { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
