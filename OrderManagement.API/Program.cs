@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.API.Extensions;
+using OrderManagement.Application.Mappings;
 using OrderManagement.Infrastructure.DbContexts;
 using Scalar.AspNetCore;
 
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<OrderManagementDbContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddJwtAuthentication(builder.Configuration);

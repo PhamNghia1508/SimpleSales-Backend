@@ -39,7 +39,7 @@ public class AccountService : IAccountService
         await _unitOfWork.Accounts.AddAsync(account);
         await _unitOfWork.SaveChangesAsync();
 
-        return GenerateToken(username);
+        return GenerateToken(account);
     }
 
     public async Task<(string Token, DateTime ExpiresAt, string Username)> LoginAsync(string username, string password)
@@ -48,7 +48,7 @@ public class AccountService : IAccountService
         if (account is null || !VerifyPassword(password, account.PasswordHash, account.PasswordSalt))
             throw new UnauthorizedAccessException("Invalid credentials");
 
-        return GenerateToken(username);
+        return GenerateToken(account);
     }
 
     private static void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
@@ -65,7 +65,7 @@ public class AccountService : IAccountService
         return computedHash.SequenceEqual(storedHash);
     }
 
-    private (string Token, DateTime ExpiresAt, string Username) GenerateToken(string username)
+    private (string Token, DateTime ExpiresAt, string Username) GenerateToken(Account account)
     {
         var issuer = _configuration["Jwt:Issuer"] ?? string.Empty;
         var audience = _configuration["Jwt:Audience"] ?? string.Empty;
@@ -74,8 +74,10 @@ public class AccountService : IAccountService
 
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, username),
-            new(JwtRegisteredClaimNames.UniqueName, username)
+            new(JwtRegisteredClaimNames.Sub, account.Username),
+            new(JwtRegisteredClaimNames.UniqueName, account.Username),
+            new(ClaimTypes.NameIdentifier, account.AccountId.ToString()),
+            new(ClaimTypes.Name, account.Username)
         };
 
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -90,6 +92,6 @@ public class AccountService : IAccountService
             signingCredentials: creds);
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-        return (tokenValue, expires, username);
+        return (tokenValue, expires, account.Username);
     }
 }
