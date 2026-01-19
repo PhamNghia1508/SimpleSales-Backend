@@ -1,6 +1,6 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.API.Extensions;
 using OrderManagement.Core.DTOs.Orders;
 using OrderManagement.Core.Interfaces.Services;
 
@@ -21,7 +21,7 @@ public class OrdersController : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto request, CancellationToken cancellationToken)
 	{
-		var accountId = GetAccountId();
+		var accountId = User.GetAccountId();
 		if (accountId == null) return Unauthorized();
 
 		await _orderService.CreateOrderAsync(accountId.Value, request, cancellationToken);
@@ -31,16 +31,10 @@ public class OrdersController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetMyOrders(CancellationToken cancellationToken)
 	{
-		var accountId = GetAccountId();
+		var accountId = User.GetAccountId();
 		if (accountId == null) return Unauthorized();
 
 		var orders = await _orderService.GetOrdersByAccountAsync(accountId.Value, cancellationToken);
 		return Ok(orders);
-	}
-
-	private int? GetAccountId()
-	{
-		var claim = User.FindFirst(ClaimTypes.NameIdentifier);
-		return claim != null && int.TryParse(claim.Value, out var id) ? id : null;
 	}
 }
