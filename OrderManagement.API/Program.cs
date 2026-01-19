@@ -5,7 +5,6 @@ using OrderManagement.Application.Mappings;
 using OrderManagement.Application.Services;
 using OrderManagement.Core.Interfaces.Services;
 using OrderManagement.Infrastructure.DbContexts;
-using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +13,37 @@ builder.Services.AddDbContext<OrderManagementDbContext>(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "OrderManagement.API", Version = "v1" });
+
+    // Enable JWT Bearer auth in Swagger UI (Authorize button)
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Nhập JWT token theo format: Bearer {your_token}"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
@@ -34,16 +63,16 @@ builder.Services.AddScoped<IOrderService>(provider =>
 {
     var coreService = provider.GetRequiredService<OrderService>();
     var memoryCache = provider.GetRequiredService<IMemoryCache>();
-    return new CachedOrderService(coreService, memoryCache);
+    var logger = provider.GetRequiredService<ILogger<CachedOrderService>>();
+    return new CachedOrderService(coreService, memoryCache, logger);
 });
-
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference(); 
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -55,3 +84,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
