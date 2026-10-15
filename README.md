@@ -3,7 +3,9 @@
 **Does your CV _prove_ what the job asks for?**
 Paste a job post and your CV. GapMap links every requirement to the CV line that proves it — or flags it as a gap — using a small AI model that runs **entirely in your browser**. Nothing is uploaded.
 
-**Live demo:** https://phamnghia1508.github.io/gapmap/
+> **Repo note:** GapMap lives in this repository because the GitHub integration used to build it could not create a new repo. GapMap's code on `main` was written from an empty folder during the hackathon (Oct 2026); the repo's earlier, unrelated SimpleSales backend code is preserved untouched on the [`legacy`](https://github.com/PhamNghia1508/SimpleSales-Backend/tree/legacy) branch and is not part of this project.
+
+**Live demo:** https://phamnghia1508.github.io/SimpleSales-Backend/
 Built for Devpost's [Build With AI: Basics](https://learn-ai-basics.devpost.com/) with the [Devpost Learn Skill Pack](https://github.com/challengepost/learn-ai-basics).
 
 ![GapMap results: fit score, requirement rows with evidence, CV with highlighted proof lines](docs/screenshot-results.png)
@@ -22,15 +24,15 @@ Students and fresh graduates send the same CV to dozens of junior roles. Recruit
 - **Copy report** as Markdown.
 
 ## Try it
-1. Open the [live demo](https://phamnghia1508.github.io/gapmap/) (first load downloads ~45 MB of model + runtime, then it's cached).
+1. Open the [live demo](https://phamnghia1508.github.io/SimpleSales-Backend/) (first load downloads ~45 MB of model + runtime, then it's cached).
 2. Click **Try a sample** (a fictional job post and CV) → **Map the gaps**.
 3. Click rows to see evidence; add a bullet to the CV and map again.
 
 ## Run locally
 No build step and no API keys.
 ```bash
-git clone https://github.com/PhamNghia1508/gapmap.git
-cd gapmap
+git clone https://github.com/PhamNghia1508/SimpleSales-Backend.git
+cd SimpleSales-Backend
 python3 -m http.server 8000      # or: npm start
 # open http://localhost:8000
 ```

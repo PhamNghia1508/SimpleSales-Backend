@@ -37,7 +37,7 @@ PRD ref: `prd.md > The Core Journey`.
 ## Where It Runs and How Someone Tries It
 - Runtime: any modern desktop or mobile browser with WebAssembly (Chrome, Edge, Firefox, Safari). No API keys.
 - Local: `python3 -m http.server 8000` in the repo folder (or `npm start`), open http://localhost:8000. Opening `index.html` from the file system will not work because browsers block ES-module/wasm loading from `file://`.
-- Live: GitHub Pages from the `main` branch root → https://phamnghia1508.github.io/gapmap/
+- Live: GitHub Pages from the `gh-pages` branch (same files as `main`; all paths are relative, so it works under the `/SimpleSales-Backend/` base path) → https://phamnghia1508.github.io/SimpleSales-Backend/
 - Tests: `npm test` (or `node --test tests/*.test.mjs`).
 - Demo recording: click **Try a sample** → **Map the gaps** → open a gap, a partial and a proven row → add a TypeScript and a Vitest bullet to the CV → map again → copy report.
 

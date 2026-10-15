@@ -35,7 +35,7 @@ Build mode: fast
   PRD ref: `prd.md > Re-map with delta`, `prd.md > Saving and export`, `prd.md > States and Boundaries`
   Spec ref: `spec.md > Data Model`, `spec.md > UI controller`
   Build: localStorage, delta chip, toMarkdown + clipboard/download, validation messages, offline check.
-  Verify (mechanical): Recorded run: adding TypeScript + Vitest bullets moves the sample from 70% to 87% with both rows proven; re-map with the browser set offline still succeeds; `npm test` passes.
+  Verify (mechanical): Recorded run: adding TypeScript + Vitest bullets moves the sample from 70% to 85% (+15) in the browser, with the unit-test row flipping to proven; re-map with the browser set offline still succeeds; `npm test` passes.
   Learner check: Add a true bullet to your own CV and map again — does the delta and the flipped row feel right?
   Commit: `Add re-map delta, persistence, Markdown report and states`
 
